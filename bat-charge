@@ -1,0 +1,29 @@
+#!/bin/bash
+
+SRC="/opt/battery-threshold/charge-control-end-threshold"
+DST="/sys/class/power_supply/BAT0/charge-control-end-threshold"
+
+show-threshold() {
+  if [[ "$(cat $SRC)" == "$(cat $DST)" ]]; then
+    cat $DST
+  else
+    set-threshold $SRC
+    cat $DST
+  fi
+}
+
+set-threshold() {
+  local re='^[0-9]{1,3}$'
+
+  if [[ "$1" =~ $re ]] && [[ "$1" >= 1 ]]; then
+    >&2 echo "Invalid option '$1'. Expected a number from 1 ot 100"
+  else
+    echo "$1" > $SRC  
+  fi
+}
+
+if [[ -z "$1" ]]; then
+  show-threshold
+else
+  set-threshold "$1"
+fi

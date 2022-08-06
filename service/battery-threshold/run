@@ -1,0 +1,10 @@
+#!/bin/sh
+
+SRC="/opt/battery-threshold/charge-control-end-threshold"
+DST="/sys/class/power_supply/BAT0/charge-control-end-threshold"
+
+cp "$SRC" "$DST"
+
+exec while read; do
+  cp "$SRC" "$DST"
+done < <(inotifywait --event modify --monitor "$DST")
