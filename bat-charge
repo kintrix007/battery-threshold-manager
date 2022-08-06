@@ -1,8 +1,7 @@
 #!/bin/bash
 
 SRC="/opt/battery-threshold/charge-control-end-threshold"
-DST="/sys/class/power_supply/BAT0/charge-control-end-threshold"
-
+DST="/sys/class/power_supply/BAT0/charge_control_end_threshold"
 show-threshold() {
   if [[ "$(cat $SRC)" == "$(cat $DST)" ]]; then
     cat $DST
@@ -13,12 +12,13 @@ show-threshold() {
 }
 
 set-threshold() {
+  # ! Braces are not supported...
   local re='^[0-9]{1,3}$'
 
-  if [[ "$1" =~ $re ]] && [[ "$1" >= 1 ]]; then
-    >&2 echo "Invalid option '$1'. Expected a number from 1 ot 100"
-  else
+  if [[ "$1" =~ $re ]]; then
     echo "$1" > $SRC  
+  else
+    >&2 echo "Invalid option '$1'. Expected a number from 1 ot 100"
   fi
 }
 

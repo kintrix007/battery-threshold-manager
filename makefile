@@ -7,6 +7,7 @@ install:
 	touch /opt/battery-threshold/charge-control-end-threshold
 	chown -R root /opt/battery-threshold/
 	chgrp -R $(GROUP) /opt/battery-threshold/
+	chmod -R g+w /opt/battery-threshold
 	install -o root -g root -p ./bat-charge /usr/bin/$(BIN)
 	cp -r --preserve=timestamps ./service/battery-threshold /etc/sv/$(SERVICE)
 	chown root /etc/sv/$(SERVICE)

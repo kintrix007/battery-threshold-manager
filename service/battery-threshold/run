@@ -1,10 +1,17 @@
-#!/bin/sh
+#!/bin/bash
 
 SRC="/opt/battery-threshold/charge-control-end-threshold"
 DST="/sys/class/power_supply/BAT0/charge-control-end-threshold"
 
+#! Absolutely does not work
+# TODO Actually fix lmao
+
+foo() {
+  while read j; do
+    cp "$SRC" "$DST"
+  done < <(inotifywait --quiet --monitor --event modify "$SRC")
+}
+
 cp "$SRC" "$DST"
 
-exec while read; do
-  cp "$SRC" "$DST"
-done < <(inotifywait --event modify --monitor "$DST")
+exec foo

@@ -1,5 +1,7 @@
 # Battery Threshold manager
 
+Currently does not work
+
 ### Dependencies:
 - `inotify-tools`
 
